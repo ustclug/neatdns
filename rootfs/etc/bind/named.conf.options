@@ -11,7 +11,7 @@ options {
     max-cache-size 256m;
     max-cache-ttl 600;
     max-ncache-ttl 60;
-    dnssec-validation auto;
+    dnssec-validation no;
     minimal-responses yes;
 
     auth-nxdomain no;
