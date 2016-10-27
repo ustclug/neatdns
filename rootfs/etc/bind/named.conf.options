@@ -1,0 +1,33 @@
+options {
+    directory "/var/bind";
+
+    forwarders {
+        8.8.4.4;
+        8.8.8.8;
+    };
+
+    allow-query { any; };
+    allow-recursion { any; };
+    max-cache-size 256m;
+    max-cache-ttl 600;
+    max-ncache-ttl 60;
+    dnssec-validation auto;
+    minimal-responses yes;
+
+    auth-nxdomain no;
+    listen-on-v6 { any; };
+
+    rate-limit {
+        responses-per-second 20;
+        errors-per-second 5;
+        nxdomains-per-second 5;
+        window 4;
+        slip 1;
+        ipv4-prefix-length 24;
+        ipv6-prefix-length 64;
+        exempt-clients {
+            127.0.0.1/8;
+            10.254.0.0/16;
+        };
+    };
+};

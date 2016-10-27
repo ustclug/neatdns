@@ -1,0 +1,12 @@
+zone "aod.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "mvod.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "streamingaudio.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "itsliveradio.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "client-api.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "radio.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "radio-activity.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "radio-services.itunes.apple.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+zone "s.mzstatic.com." {type forward; forwarders { 8.8.8.8; 8.8.4.4; }; };
+
+zone "appldnld.apple.com." {type forward; forwarders { 180.76.76.76;  }; };
+zone "appldnld.apple.com.akadns.net." {type forward; forwarders { 180.76.76.76;  }; };

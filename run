@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec named -u named -g

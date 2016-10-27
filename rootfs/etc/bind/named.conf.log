@@ -1,0 +1,12 @@
+logging {
+    channel filelog {
+        file "/var/log/named/named.log" versions 10 size 5m;
+        severity warning;
+        print-time yes;
+        print-severity yes;
+        print-category yes;
+    };
+    category default{
+        filelog;
+    };
+};
