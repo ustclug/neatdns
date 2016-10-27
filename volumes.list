@@ -1,1 +1,3 @@
 /var/log/named
+/var/log/supervisor
+/srv/dnscrypt-wrapper

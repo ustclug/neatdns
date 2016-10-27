@@ -1,3 +1,20 @@
 #!/bin/sh
 
-apk add --no-cache bind
+apk update
+apk add bind libevent libsodium supervisor
+apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
+
+export DNSCRYPT_WRAPPER_SRC=/usr/local/src/dnscrypt-wrapper
+git clone --recursive git://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
+cd $DNSCRYPT_WRAPPER_SRC
+git checkout 1751eae2f38f74cb72ec13a833701dd1e6aea76f
+make configure
+./configure
+make
+make install
+
+cd /
+rm -rf $DNSCRYPT_WRAPPER_SRC
+apk del --purge build-deps
+rm -rf /var/cache/apk/*
+
