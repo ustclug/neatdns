@@ -8,7 +8,7 @@ options {
 
     allow-query { any; };
     allow-recursion { any; };
-    max-cache-size 256m;
+    max-cache-size 1024m;
     max-cache-ttl 600;
     max-ncache-ttl 60;
     dnssec-validation no;
