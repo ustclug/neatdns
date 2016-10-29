@@ -1,12 +1,21 @@
 logging {
-    channel filelog {
-        file "/var/log/named/named.log" versions 10 size 5m;
-        severity warning;
+    channel infolog {
+        file "/var/log/named/info.log" versions 4 size 128m;
+        severity info;
         print-time yes;
         print-severity yes;
         print-category yes;
     };
-    category default{
-        filelog;
+    channel querylog {
+        file "/var/log/named/query.log" versions 2 size 512m;
+    };
+    category default {
+        infolog;
+    };
+    category config {
+        infolog;
+    };
+    category queries {
+        querylog;
     };
 };
