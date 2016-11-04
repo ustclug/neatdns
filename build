@@ -1,20 +1,71 @@
-#!/bin/sh
+#!/bin/bash
+
+build_dnscrypt-wrapper(){
+    apk add libevent libsodium 
+    apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
+    export DNSCRYPT_WRAPPER_SRC=/usr/local/src/dnscrypt-wrapper
+    git clone --recursive git://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
+    cd $DNSCRYPT_WRAPPER_SRC
+    git checkout 1751eae2f38f74cb72ec13a833701dd1e6aea76f
+    make configure
+    ./configure
+    make
+    make install
+}
+
+build_bind(){
+    export BIND_SRC=$SRC_DIR/bind.tar.gz
+    export BIND_SRC_DIR=$SRC_DIR/bind-$BIND_VERSION
+    apk add libcap libcrypto1.0 libgcc
+    apk add -t build-deps build-base bash openssl-dev libcap-dev perl linux-headers bsd-compat-headers
+    wget -q -O $BIND_SRC http://ftp.isc.org/isc/bind9/${BIND_VERSION}/bind-${BIND_VERSION}.tar.gz
+    echo "$BIND_SHA256  $BIND_SRC" | sha256sum -c -s || exit 1
+    tar -C $SRC_DIR -xzf $BIND_SRC
+    cd $BIND_SRC_DIR
+    for i in bin/named/named.8 bin/check/named-checkconf.8 bin/rndc/rndc.8; do
+        sed -i \
+            -e 's:/etc/named.conf:/etc/bind/named.conf:g' \
+            -e 's:/etc/rndc.conf:/etc/bind/rndc.conf:g' \
+            -e 's:/etc/rndc.key:/etc/bind/rndc.key:g' \
+            "${i}" || return 1
+    done
+    sed -i '/#define SOCK_DEAD(s)/a#undef SO_BSDCOMPAT' lib/isc/unix/socket.c
+
+    export CFLAGS="$CFLAGS -D_GNU_SOURCE"
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc/bind \
+        --localstatedir=/var \
+        --with-openssl=/usr \
+        --enable-linux-caps \
+        --enable-threads \
+        --enable-filter-aaaa \
+        --enable-ipv6 \
+        --enable-shared \
+        --enable-static \
+        --with-libtool \
+        --with-randomdev=/dev/random \
+        --mandir=/usr/share/man \
+        --infodir=/usr/share/info \
+        || exit 1
+    make -j `getconf _NPROCESSORS_ONLN` || exit 1
+
+    addgroup -S named
+    adduser -h /etc/bind -s /sbin/nologin -G named -D -S named
+    make install || exit 1
+
+}
+
+set -x
+
+export SRC_DIR=/usr/local/src
+mkdir -p $SRC_DIR
 
 apk update
-apk add bind libevent libsodium supervisor
-apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
-
-export DNSCRYPT_WRAPPER_SRC=/usr/local/src/dnscrypt-wrapper
-git clone --recursive git://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
-cd $DNSCRYPT_WRAPPER_SRC
-git checkout 1751eae2f38f74cb72ec13a833701dd1e6aea76f
-make configure
-./configure
-make
-make install
-
+build_bind
+build_dnscrypt-wrapper
+apk add supervisor
 cd /
-rm -rf $DNSCRYPT_WRAPPER_SRC
 apk del --purge build-deps
-rm -rf /var/cache/apk/*
-
+rm -rf $SRC_DIR \
+    /var/cache/apk/*

@@ -1,2 +1,3 @@
 755	named	named	/var/log/named
 644	named	named	/var/log/named/named.log
+770 root    named   /var/bind
