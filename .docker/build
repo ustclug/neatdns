@@ -64,7 +64,7 @@ mkdir -p $SRC_DIR
 apk update
 build_bind
 build_dnscrypt-wrapper
-apk add supervisor
+apk add supervisor iptables
 cd /
 apk del --purge build-deps
 rm -rf $SRC_DIR \
