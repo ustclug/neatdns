@@ -5,6 +5,7 @@ options {
         8.8.4.4;
         8.8.8.8;
     };
+    forward only;
 
     allow-query { any; };
     allow-recursion { any; };
