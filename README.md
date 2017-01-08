@@ -36,7 +36,7 @@ Available environment variables:
 
 ## DNSCrypt Client Usage
 
-You use get your own DNSCrypt fingerprint first:
+Please get your own DNSCrypt fingerprint first:
 
 ```shell
 $ cat $DNSCRYPT_KEY_PATH/fingerprint
@@ -51,5 +51,5 @@ Then, run dnscrypt-proxy on the client side, for example:
 dnscrypt-proxy --local-address=127.0.0.1:53 --resolver-address=$DNS_SERVER:443 --provider-name=2.dnscrypt-cert.example.org --provider-key=4365:1587:E7A0:8C7C:1759:D300:6218:89AE:5999:42CA:562E:CB00:03E5:2147:A850:E191
 ```
 
-**NOTE**:  You need to replace $DNS_SERVER with your server IP address.
+**NOTE**:  You need to replace `$DNS_SERVER` with your server IP address.
 
