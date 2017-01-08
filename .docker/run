@@ -1,8 +1,3 @@
 #!/bin/sh
 
-iptables -N UPSTREAM
-iptables -A INPUT -s 8.8.8.8 -j UPSTREAM
-iptables -A INPUT -s 8.8.4.4 -j UPSTREAM
-iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "36=0" -j DROP
-iptables -A UPSTREAM -p tcp -m tcp --sport 53 --tcp-flags RST RST -j DROP
 exec supervisord

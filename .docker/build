@@ -56,7 +56,16 @@ build_bind(){
 
 }
 
+get_china_list(){
+    LIST_DIR=$SRC_DIR/dnsmasq-china-list
+    git clone --depth=1 https://github.com/felixonmars/dnsmasq-china-list.git $LIST_DIR
+    cd $LIST_DIR
+    make raw
+    install accelerated-domains.china.raw.txt /opt/
+}
+
 set -x
+set -e
 
 export SRC_DIR=/usr/local/src
 mkdir -p $SRC_DIR
@@ -64,6 +73,7 @@ mkdir -p $SRC_DIR
 apk update
 build_bind
 build_dnscrypt-wrapper
+get_china_list
 apk add supervisor iptables
 cd /
 apk del --purge build-deps

@@ -2,8 +2,8 @@ options {
     directory "/var/bind";
 
     forwarders {
-        8.8.4.4;
-        8.8.8.8;
+        {{GLOBAL_DNS1}};
+        {{GLOBAL_DNS2}};
     };
     forward only;
 
