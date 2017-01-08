@@ -5,3 +5,4 @@ GLOBAL_DNS2  = 8.8.4.4
 CHINA_DNS1   = 202.102.199.68
 CHINA_DNS2   = 223.5.5.5
 DNSCRYPT_PROVIDER = 2.dnscrypt-cert.ustclug.org
+DNSCRYPT_PORT     = 443
