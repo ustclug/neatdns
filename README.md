@@ -30,7 +30,7 @@ Available environment variables:
 | ----------------- | ---------------------------------------- | --------------------------- |
 | GLOBAL_DNS1       | preferred DNS server to resolve non-China website | 8.8.8.8                     |
 | GLOBAL_DNS2       | alternate DNS server to resolve non-China website | 8.8.4.4                     |
-| CHINA_DNS1        | preferred DNS server to resolve China website | 202.102.199.68              |
+| CHINA_DNS1        | preferred DNS server to resolve China website | 180.76.76.76                |
 | CHINA_DNS2        | alternate DNS server to resolve China website | 223.5.5.5                   |
 | DNSCRYPT_PROVIDER | DNSCrypt provider name                   | 2.dnscrypt-cert.ustclug.org |
 
