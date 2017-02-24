@@ -6,6 +6,7 @@ Including the following software:
 
 * bind
 * dnscrypt-wrapper
+* collectd
 
 ## Deployment
 
@@ -33,6 +34,10 @@ Available environment variables:
 | CHINA_DNS1        | preferred DNS server to resolve China website | 180.76.76.76                |
 | CHINA_DNS2        | alternate DNS server to resolve China website | 223.5.5.5                   |
 | DNSCRYPT_PROVIDER | DNSCrypt provider name                   | 2.dnscrypt-cert.ustclug.org |
+| COLLECTD_ON       | auto-start collectd                      | false                       |
+| COLLECTD_HOSTNAME | hostname defined in collectd.conf        | neatdns                     |
+| INFLUXDB_HOST     | remote influxDB host                     | influxdb                    |
+| INFLUXDB_PORT     | remote influxDB port                     | 25826                       |
 
 ## DNSCrypt Client Usage
 

@@ -76,7 +76,7 @@ apk update
 build_bind
 build_dnscrypt-wrapper
 get_china_list
-apk add supervisor iptables
+apk add supervisor iptables collectd-bind collectd-network
 mkdir -p /var/log/named /var/log/supervisor /srv/dnscrypt-wrapper
 cd /
 apk del --purge build-deps
