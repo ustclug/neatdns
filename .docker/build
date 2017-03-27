@@ -76,8 +76,18 @@ apk update
 build_bind
 build_dnscrypt-wrapper
 get_china_list
-apk add supervisor iptables collectd-bind collectd-network
-mkdir -p /var/log/named /var/log/supervisor /srv/dnscrypt-wrapper
+apk add \
+    supervisor \
+    iptables \
+    ip6tables \
+    collectd-bind \
+    collectd-network \
+    fail2ban
+mkdir -p /var/log/named \
+        /var/log/supervisor \
+        /srv/dnscrypt-wrapper \
+        /var/run/fail2ban
+rm /etc/fail2ban/jail.d/alpine-ssh.conf
 cd /
 apk del --purge build-deps
 rm -rf $SRC_DIR \
