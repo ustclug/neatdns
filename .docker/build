@@ -17,7 +17,7 @@ build_bind(){
     export BIND_SRC=$SRC_DIR/bind.tar.gz
     export BIND_SRC_DIR=$SRC_DIR/bind-$BIND_VERSION
     apk add libcap libcrypto1.0 libgcc libxml2 json-c
-    apk add -t build-deps build-base bash openssl-dev libcap-dev perl linux-headers bsd-compat-headers libxml2-dev json-c-dev
+    apk add -t build-deps build-base bash openssl-dev libcap-dev perl linux-headers bsd-compat-headers libxml2-dev json-c-dev file
     wget -q -O $BIND_SRC http://ftp.isc.org/isc/bind9/${BIND_VERSION}/bind-${BIND_VERSION}.tar.gz
     echo "$BIND_SHA256  $BIND_SRC" | sha256sum -c -s || exit 1
     tar -C $SRC_DIR -xzf $BIND_SRC
