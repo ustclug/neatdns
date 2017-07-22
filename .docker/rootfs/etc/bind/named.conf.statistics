@@ -1,3 +1,3 @@
 statistics-channels {
-	inet *;
+	inet * port {{BIND_STATISTICS_PORT}};
 };
