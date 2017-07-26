@@ -4,6 +4,7 @@ iptables -N UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS1 -j UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS2 -j UPSTREAM
 iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "36=0" -j DROP
+iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "28&0x10=0" -j DROP
 iptables -A UPSTREAM -p tcp -m tcp --sport 53 --tcp-flags RST RST -j DROP
 
 
