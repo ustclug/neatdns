@@ -8,6 +8,7 @@ CHINA_DNS2   = 223.5.5.5
 DNSCRYPT_ON       = true
 DNSCRYPT_PROVIDER = 2.dnscrypt-cert.ustclug.org
 DNSCRYPT_PORT     = 443
+DNSCRYPT_VERSION  = 0.3
 COLLECTD_ON       = false
 COLLECTD_HOSTNAME = neatdns
 INFLUXDB_HOST     = influxdb
