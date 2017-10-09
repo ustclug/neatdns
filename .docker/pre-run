@@ -1,5 +1,15 @@
 #!/bin/bash
 
+var2list(){
+	local PREFIX=$1
+	echo -n $(eval echo \$${PREFIX}1)
+	seq 2 9 |
+	while read n; do 
+		[[ -n $(eval echo -n \$$PREFIX$n) ]] && eval echo -n ,$(eval echo \$$PREFIX$n);
+	done
+	echo
+}
+
 iptables -N UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS1 -j UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS2 -j UPSTREAM
@@ -8,11 +18,8 @@ iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "28&0x10=0" -j DROP
 iptables -A UPSTREAM -p tcp -m tcp --sport 53 --tcp-flags RST RST -j DROP
 
 
-if [[ $CHINA_DNS2 ]]; then
-    sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; $CHINA_DNS2; }; };|" /opt/accelerated-domains.china.raw.txt > /etc/bind/named.conf.china
-else
-    sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; }; };|" /opt/accelerated-domains.china.raw.txt > /etc/bind/named.conf.china
-fi
+awk "{printf(\"+%s=$(var2list CHINA_DNS)\n\",\$1);}" /opt/accelerated-domains.china.raw.txt > /etc/pdns/forward.zone
+echo "+.=$(var2list GLOBAL_DNS)" >> /etc/pdns/forward.zone
 
 
 cd /srv/dnscrypt-wrapper
