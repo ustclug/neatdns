@@ -31,4 +31,5 @@ options {
             10.254.0.0/16;
         };
     };
+    response-policy { zone "rpz"; };
 };

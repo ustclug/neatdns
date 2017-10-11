@@ -16,3 +16,8 @@ zone "127.in-addr.arpa" IN {
     allow-update { none; };
     notify no;
 };
+
+zone "rpz" {
+	type master;
+	file "rpz/rpz.zone";
+};
