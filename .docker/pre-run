@@ -10,8 +10,10 @@ iptables -A UPSTREAM -p tcp -m tcp --sport 53 --tcp-flags RST RST -j DROP
 
 if [[ $CHINA_DNS2 ]]; then
     sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; $CHINA_DNS2; }; };|" /opt/accelerated-domains.china.raw.txt > /etc/bind/named.conf.china
+    sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; $CHINA_DNS2; }; };|" /opt/apple.china.raw.txt > /etc/bind/named.conf.apple
 else
     sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; }; };|" /opt/accelerated-domains.china.raw.txt > /etc/bind/named.conf.china
+    sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; }; };|" /opt/apple.china.raw.txt > /etc/bind/named.conf.apple
 fi
 
 

@@ -64,6 +64,7 @@ get_china_list(){
     cd $LIST_DIR
     make raw
     install accelerated-domains.china.raw.txt /opt/
+    install apple.china.raw.txt /opt/
 }
 
 set -x
