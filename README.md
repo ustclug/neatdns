@@ -38,6 +38,7 @@ Available environment variables:
 | COLLECTD_HOSTNAME | hostname defined in collectd.conf        | neatdns                     |
 | INFLUXDB_HOST     | remote influxDB host                     | influxdb                    |
 | INFLUXDB_PORT     | remote influxDB port                     | 25826                       |
+| FAIL2BAN_ON       | auto-start fail2ban                      | true                        |
 
 ## DNSCrypt Client Usage
 
