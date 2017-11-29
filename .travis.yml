@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+language: shell
+before_install:
+  - curl -sSL get.docker.com | sudo bash
+  - docker --version
+script:
+  - ci/build-image.sh
+deploy:
+  provider: script
+  script: ci/push-image.sh
+  skip_cleanup: true
+  on:
+    branch: master
