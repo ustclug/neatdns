@@ -1,0 +1,15 @@
+#!/bin/bash
+
+var2list(){
+	local PREFIX=$1
+	echo -n $(eval echo \$${PREFIX}1)
+	seq 2 9 |
+	while read n; do 
+		[[ -n $(eval echo -n \$$PREFIX$n) ]] && eval echo -n ,$(eval echo \$$PREFIX$n);
+	done
+	echo
+}
+
+awk "{printf(\"+%s=$(var2list CHINA_DNS)\n\",\$1);}" /opt/accelerated-domains.china.raw.txt > /etc/pdns/forward.zone
+echo "+.=$(var2list GLOBAL_DNS)" >> /etc/pdns/forward.zone
+
