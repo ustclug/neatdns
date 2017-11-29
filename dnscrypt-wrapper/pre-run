@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -x
+
+cd /srv/dnscrypt-wrapper
+[[ -f secret.key  ]] || dnscrypt-wrapper --gen-provider-keypair
+[[ -f public.key  ]] || >&2 echo "'public.key' does not exist. Please delete secret.key, and try again." 
+[[ -f fingerprint ]] || dnscrypt-wrapper --show-provider-publickey --provider-publickey-file public.key > fingerprint
+[[ -f server.key  ]] || dnscrypt-wrapper --gen-crypt-keypair --crypt-secretkey-file=server.key
+[[ -f server.cert ]] || dnscrypt-wrapper --gen-cert-file --crypt-secretkey-file=server.key --provider-cert-file=server.cert \
+    --provider-publickey-file=public.key --provider-secretkey-file=secret.key
+
+chmod go-rwx server.key secret.key

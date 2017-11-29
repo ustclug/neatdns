@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -x
+set -e
+
+export SRC_DIR=/usr/local/src
+mkdir -p $SRC_DIR
+
+apk update
+apk add libevent libsodium 
+apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
+export DNSCRYPT_WRAPPER_SRC=$SRC_DIR/dnscrypt-wrapper
+git clone --recursive --depth=1 --branch=v$DNSCRYPT_VERSION git://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
+cd $DNSCRYPT_WRAPPER_SRC
+make configure
+./configure
+make
+make install
+mkdir -p /srv/dnscrypt-wrapper
+apk del --purge build-deps
+rm -rf $SRC_DIR \
+    /var/cache/apk/*

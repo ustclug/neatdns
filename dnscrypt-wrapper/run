@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd /srv/dnscrypt-wrapper
+exec dnscrypt-wrapper --resolver-address=127.0.0.1:53 --listen-address=0.0.0.0:$DNSCRYPT_PORT --provider-name=$DNSCRYPT_PROVIDER --crypt-secretkey-file=server.key --provider-cert-file=server.cert
