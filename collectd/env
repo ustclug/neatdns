@@ -1,0 +1,3 @@
+COLLECTD_HOSTNAME = neatdns
+INFLUXDB_HOST     = influxdb
+INFLUXDB_PORT     = 25826
