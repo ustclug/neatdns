@@ -2,7 +2,7 @@ FROM golang:alpine as builder
 RUN apk add --no-cache git build-base
 RUN git clone https://github.com/m13253/dns-over-https.git /tmp/dns-over-https
 WORKDIR /tmp/dns-over-https
-RUN git checkout -ql 1b998d13ded1cc3590d81e8ccf4699292e91fb6e
+RUN git checkout -ql e510d84809c4d7e99d3710e325141e3500b02c13
 RUN make
 
 FROM alpine:3.6
