@@ -1,0 +1,53 @@
+version: "3"
+services:
+  anti-pollution:
+    image: ustclug/neatdns:anti-pollution
+    restart: unless-stopped
+    stop_grace_period: 1s
+    env_file: .env
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "53"
+      - "$DNSCRYPT_PORT"
+      - "$DOH_PORT"
+  pdns-recursor:
+    image: ustclug/neatdns:pdns-recursor
+    restart: unless-stopped
+    stop_grace_period: 1s
+    env_file: .env
+    network_mode: "service:anti-pollution"
+    volumes:
+      - "var_run:/var/run"
+    depends_on:
+      - anti-pollution
+  collectd:
+    image: ustclug/neatdns:collectd
+    restart: unless-stopped
+    stop_grace_period: 1s
+    env_file: .env
+    network_mode: "service:anti-pollution"
+    volumes:
+      - "var_run:/var/run"
+    depends_on:
+      - pdns-recursor
+    tty: true
+  dnscrypt-wrapper:
+    image: ustclug/neatdns:dnscrypt-wrapper
+    restart: unless-stopped
+    stop_grace_period: 1s
+    env_file: .env
+    network_mode: "service:anti-pollution"
+    depends_on:
+      - pdns-recursor
+  dns-over-https:
+    image: ustclug/neatdns:dns-over-https
+    restart: unless-stopped
+    stop_grace_period: 1s
+    env_file: .env
+    network_mode: "service:anti-pollution"
+    depends_on:
+      - pdns-recursor
+
+volumes:
+  var_run:
