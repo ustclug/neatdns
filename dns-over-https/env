@@ -1,0 +1,8 @@
+DOH_PORT     = 80
+DOH_CERT     =
+DOH_KEY      =
+DOH_PATH     = /resolve
+PDNS_LISTEN  = 53
+DOH_TRIES    = 3
+DOH_TCP_ONLY = false
+DOH_VERBOSE  = false

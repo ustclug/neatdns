@@ -1,0 +1,2 @@
+#!/bin/sh
+exec doh-server -conf /etc/doh-server.conf
