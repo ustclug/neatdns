@@ -11,5 +11,4 @@ var2list(){
 }
 
 awk "{printf(\"+%s=$(var2list CHINA_DNS)\n\",\$1);}" /opt/accelerated-domains.china.raw.txt > /etc/pdns/forward.zone
-echo "+.=$(var2list GLOBAL_DNS)" >> /etc/pdns/forward.zone
 
