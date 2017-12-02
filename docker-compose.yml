@@ -8,9 +8,11 @@ services:
     cap_add:
       - NET_ADMIN
     ports:
-      - "53"
-      - "$DNSCRYPT_PORT"
-      - "$DOH_PORT"
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "53443:$DNSCRYPT_PORT/tcp"
+      - "53443:$DNSCRYPT_PORT/udp"
+      - "5380:$DOH_PORT"
   pdns-recursor:
     image: ustclug/neatdns:pdns-recursor
     restart: unless-stopped
