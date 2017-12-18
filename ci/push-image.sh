@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+[[ -n $DOCKER_USER ]] && docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
 for dir in */ ; do
 	[[ ! -f ${dir}Dockerfile ]] && continue
