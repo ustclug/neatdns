@@ -2,9 +2,6 @@ sudo: required
 services:
   - docker
 language: shell
-before_install:
-  - curl -sSL get.docker.com | sudo bash
-  - docker --version
 script:
   - ci/build-image.sh
 deploy:
