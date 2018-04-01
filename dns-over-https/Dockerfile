@@ -1,5 +1,5 @@
 FROM golang:alpine as builder
-ARG DOH_VERSION=v1.0.1
+ARG DOH_VERSION=v1.1.4
 RUN apk add --no-cache git build-base
 RUN git clone --branch=$DOH_VERSION --depth=1 https://github.com/m13253/dns-over-https.git /tmp/dns-over-https
 WORKDIR /tmp/dns-over-https
