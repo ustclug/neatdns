@@ -33,7 +33,9 @@ Available environment variables:
 | GLOBAL_DNS2       | alternate DNS server to resolve non-China website | 8.8.8.8                     |
 | CHINA_DNS1        | preferred DNS server to resolve China website | 119.29.29.29                |
 | CHINA_DNS2        | alternate DNS server to resolve China website | 223.5.5.5                   |
+| DNSCRYPT_ON       | auto-start DNSCrypt daemon               | true                        |
 | DNSCRYPT_PROVIDER | DNSCrypt provider name                   | 2.dnscrypt-cert.ustclug.org |
+| DNSCRYPT_PORT     | DNSCrypt port                            | 443                         |
 | COLLECTD_ON       | auto-start collectd                      | false                       |
 | COLLECTD_HOSTNAME | hostname defined in collectd.conf        | neatdns                     |
 | INFLUXDB_HOST     | remote influxDB host                     | influxdb                    |
