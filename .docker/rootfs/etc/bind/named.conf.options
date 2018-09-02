@@ -27,7 +27,7 @@ options {
         ipv4-prefix-length 24;
         ipv6-prefix-length 64;
         exempt-clients {
-            127.0.0.1/8;
+            127.0.0.0/8;
             10.254.0.0/16;
         };
     };
