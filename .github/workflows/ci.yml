@@ -1,0 +1,17 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - 'master*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: ci/build-image.sh
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        run: ci/push-image.sh
