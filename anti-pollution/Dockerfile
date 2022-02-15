@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.14
 
 MAINTAINER Yifan Gao <docker@yfgao.com>
 
