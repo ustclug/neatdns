@@ -12,3 +12,5 @@ var2list(){
 
 awk "{printf(\"+%s=$(var2list CHINA_DNS)\n\",\$1);}" /opt/accelerated-domains.china.raw.txt > /etc/pdns/forward.zone
 
+# https://docs.powerdns.com/recursor/upgrade.html#x-to-4-3-0
+mkdir -p /var/run/pdns-recursor

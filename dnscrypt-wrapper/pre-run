@@ -3,7 +3,7 @@
 set -x
 
 cd /srv/dnscrypt-wrapper
-[[ -f secret.key  ]] || dnscrypt-wrapper --gen-provider-keypair
+[[ -f secret.key  ]] || dnscrypt-wrapper --gen-provider-keypair --provider-name=2.dnscrypt-cert.example.com --ext-address=192.168.1.1
 [[ -f public.key  ]] || >&2 echo "'public.key' does not exist. Please delete secret.key, and try again." 
 [[ -f fingerprint ]] || dnscrypt-wrapper --show-provider-publickey --provider-publickey-file public.key > fingerprint
 [[ -f server.key  ]] || dnscrypt-wrapper --gen-crypt-keypair --crypt-secretkey-file=server.key

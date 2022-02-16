@@ -5,4 +5,5 @@ set -e
 
 apk add --no-cache \
     collectd \
-    collectd-network
+    collectd-network \
+    collectd-powerdns
