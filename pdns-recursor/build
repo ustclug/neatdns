@@ -2,7 +2,7 @@
 
 get_china_list(){
     LIST_DIR=$SRC_DIR/dnsmasq-china-list
-    apk add -t build-deps git
+    apk add -t build-deps git make
     git clone --depth=1 https://github.com/felixonmars/dnsmasq-china-list.git $LIST_DIR
     cd $LIST_DIR
     make raw
@@ -11,7 +11,7 @@ get_china_list(){
 
 build_pdns_recursor(){
     apk add -t build-deps build-base boost-dev lua-dev libressl-dev curl
-    apk add boost libgcc libressl2.5-libcrypto libstdc++ lua5.1-libs
+    apk add boost libgcc libressl3.3-libcrypto libstdc++ lua5.1-libs
     #apk add -t build-deps build-base boost-dev lua-dev libressl-dev git autoconf automake libtool pkgconf ragel curl
     export PDNS_RECURSOR_SRC=$SRC_DIR/pdns_recursor
     mkdir -p $PDNS_RECURSOR_SRC
