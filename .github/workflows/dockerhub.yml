@@ -1,0 +1,42 @@
+name: Build and push Docker image
+on: 
+  push: {}
+  workflow_dispatch: {}
+  schedule:
+    - cron: '30 5 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set Docker image tag version
+        id: image-name
+        run: |
+          case "$GITHUB_REF" in
+            refs/heads/bind9)
+              TAG=bind9;;
+            *)
+              echo "Branch not recognized" >&2
+              exit;;
+          esac
+
+          : ${TAG:=latest}
+          echo "::set-output name=tag::$TAG"
+          echo "::set-output name=name::ustclug/neatdns:$TAG"
+      - name: Build Docker image
+        run: |
+          IMAGE="${{ steps.image-name.outputs.name }}"
+          if ! docker pull "$IMAGE";
+          then
+            echo "No cached image found, building from scratch"
+            docker build -t build-image .
+          else
+            docker build --cache-from "$IMAGE" -t build-image .
+          fi
+      - name: Push to Docker Hub
+        if: "github.repository == 'ustclug/neatdns'"
+        run: |
+          IMAGE="${{ steps.image-name.outputs.name }}"
+          docker tag build-image "$IMAGE"
+          docker login -u "${{ secrets.DOCKER_USER }}" -p "${{ secrets.DOCKER_PASS }}"
+          docker push "$IMAGE"
