@@ -6,7 +6,6 @@ Including the following software:
 
 * bind
 * dnscrypt-wrapper
-* collectd
 
 ## Deployment
 
@@ -20,7 +19,7 @@ docker run -itd \
 	-v $DNSCRYPT_KEY_PATH:/srv/dnscrypt-wrapper \
 	-e DNSCRYPT_PROVIDER=2.dnscrypt-cert.example.org \
 	--cap-add=NET_ADMIN \
-	ustclug/neatdns
+	ustclug/neatdns:bind9
 ```
 
 P.S. you should install [docker](https://www.docker.com) first.
@@ -36,10 +35,6 @@ Available environment variables:
 | DNSCRYPT_ON       | auto-start DNSCrypt daemon               | true                        |
 | DNSCRYPT_PROVIDER | DNSCrypt provider name                   | 2.dnscrypt-cert.ustclug.org |
 | DNSCRYPT_PORT     | DNSCrypt port                            | 443                         |
-| COLLECTD_ON       | auto-start collectd                      | false                       |
-| COLLECTD_HOSTNAME | hostname defined in collectd.conf        | neatdns                     |
-| INFLUXDB_HOST     | remote influxDB host                     | influxdb                    |
-| INFLUXDB_PORT     | remote influxDB port                     | 25826                       |
 | FAIL2BAN_ON       | auto-start fail2ban                      | true                        |
 
 ## DNSCrypt Client Usage

@@ -1,17 +1,16 @@
 diff --git a/lib/ns/query.c b/lib/ns/query.c
-index 4faeb37..55bed99 100644
+index f5e89bd50a..3a5d5bf1ae 100644
 --- a/lib/ns/query.c
 +++ b/lib/ns/query.c
-@@ -11185,5 +11185,12 @@ ns_query_start(ns_client_t *client) {
+@@ -12176,5 +12176,11 @@ ns_query_start(ns_client_t *client, isc_nmhandle_t *handle) {
+		message->flags |= DNS_MESSAGEFLAG_AD;
+	}
  
- 	qclient = NULL;
- 	ns_client_attach(client, &qclient);
-+
 +	if (qtype == dns_rdatatype_any &&
-+	    (client->attributes & NS_CLIENTATTR_TCP) == 0)
++		(client->attributes & NS_CLIENTATTR_TCP) == 0)
 +	{
 +		client->message->flags |= DNS_MESSAGEFLAG_TC;
 +	}
 +
- 	(void)query_setup(qclient, qtype);
+	query_setup(client, qtype);
  }

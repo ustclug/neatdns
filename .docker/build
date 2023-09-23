@@ -1,10 +1,10 @@
 #!/bin/bash
 
-build_dnscrypt-wrapper(){
+build_dnscrypt-wrapper() {
     apk add libevent libsodium 
     apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
     export DNSCRYPT_WRAPPER_SRC=$SRC_DIR/dnscrypt-wrapper
-    git clone --recursive --depth=1 --branch=v$DNSCRYPT_VERSION git://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
+    git clone --recursive --depth=1 --branch=v$DNSCRYPT_VERSION https://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
     cd $DNSCRYPT_WRAPPER_SRC
     make configure
     ./configure
@@ -12,24 +12,19 @@ build_dnscrypt-wrapper(){
     make install
 }
 
-build_bind(){
-    export BIND_SRC=$SRC_DIR/bind.tar.gz
+build_bind() {
+    export BIND_SRC=$SRC_DIR/bind.tar.xz
     export BIND_SRC_DIR=$SRC_DIR/bind-$BIND_VERSION
-    apk add libcap libcrypto1.0 libgcc libxml2 json-c
-    apk add -t build-deps build-base bash openssl-dev libcap-dev perl linux-headers bsd-compat-headers libxml2-dev json-c-dev file
-    wget -q -O $BIND_SRC http://ftp.isc.org/isc/bind9/${BIND_VERSION}/bind-${BIND_VERSION}.tar.gz
+    # bind9 no longer supports static build
+    apk add libuv nghttp2-libs userspace-rcu
+    apk add libcap libgcc libxml2 json-c
+    apk add -t build-deps build-base bash openssl-dev libcap-dev perl linux-headers bsd-compat-headers \
+               libxml2-dev json-c-dev file userspace-rcu-dev libuv-dev nghttp2-dev
+    wget -q -O $BIND_SRC http://ftp.isc.org/isc/bind9/${BIND_VERSION}/bind-${BIND_VERSION}.tar.xz
     echo "$BIND_SHA256  $BIND_SRC" | sha256sum -c -s || exit 1
-    tar -C $SRC_DIR -xzf $BIND_SRC
+    tar -C $SRC_DIR -xaf $BIND_SRC
     cd $BIND_SRC_DIR
     patch -p1 < $ASSETS_DIR/bind-any-force-tcp.patch
-    for i in bin/named/named.8 bin/check/named-checkconf.8 bin/rndc/rndc.8; do
-        sed -i \
-            -e 's:/etc/named.conf:/etc/bind/named.conf:g' \
-            -e 's:/etc/rndc.conf:/etc/bind/rndc.conf:g' \
-            -e 's:/etc/rndc.key:/etc/bind/rndc.key:g' \
-            "${i}" || return 1
-    done
-    sed -i '/#define SOCK_DEAD(s)/a#undef SO_BSDCOMPAT' lib/isc/unix/socket.c
 
     export CFLAGS="$CFLAGS -D_GNU_SOURCE"
     ./configure \
@@ -39,7 +34,6 @@ build_bind(){
         --with-openssl=/usr \
         --enable-linux-caps \
         --enable-shared \
-        --enable-static \
         --mandir=/usr/share/man \
         --infodir=/usr/share/info \
         --with-libtool \
@@ -52,10 +46,9 @@ build_bind(){
     addgroup -S named
     adduser -h /etc/bind -s /sbin/nologin -G named -D -S named
     make install || exit 1
-
 }
 
-get_china_list(){
+get_china_list() {
     LIST_DIR=$SRC_DIR/dnsmasq-china-list
     git clone --depth=1 https://github.com/felixonmars/dnsmasq-china-list.git $LIST_DIR
     cd $LIST_DIR
@@ -78,8 +71,6 @@ apk add \
     supervisor \
     iptables \
     ip6tables \
-    collectd-bind \
-    collectd-network \
     fail2ban
 mkdir -p /var/log/named \
         /var/log/supervisor \
