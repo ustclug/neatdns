@@ -1,17 +1,5 @@
 #!/bin/bash
 
-build_dnscrypt-wrapper() {
-    apk add libevent libsodium 
-    apk add -t build-deps build-base git autoconf libsodium-dev libevent-dev bsd-compat-headers
-    export DNSCRYPT_WRAPPER_SRC=$SRC_DIR/dnscrypt-wrapper
-    git clone --recursive --depth=1 --branch=v$DNSCRYPT_VERSION https://github.com/cofyc/dnscrypt-wrapper.git $DNSCRYPT_WRAPPER_SRC
-    cd $DNSCRYPT_WRAPPER_SRC
-    make configure
-    ./configure
-    make
-    make install
-}
-
 build_bind() {
     export BIND_SRC=$SRC_DIR/bind.tar.xz
     export BIND_SRC_DIR=$SRC_DIR/bind-$BIND_VERSION
@@ -49,6 +37,7 @@ build_bind() {
 }
 
 get_china_list() {
+    apk add -t build-deps git make
     LIST_DIR=$SRC_DIR/dnsmasq-china-list
     git clone --depth=1 https://github.com/felixonmars/dnsmasq-china-list.git $LIST_DIR
     cd $LIST_DIR
@@ -65,7 +54,6 @@ mkdir -p $SRC_DIR
 
 apk update
 build_bind
-build_dnscrypt-wrapper
 get_china_list
 apk add \
     supervisor \
@@ -74,7 +62,6 @@ apk add \
     fail2ban
 mkdir -p /var/log/named \
         /var/log/supervisor \
-        /srv/dnscrypt-wrapper \
         /var/run/fail2ban
 rm /etc/fail2ban/jail.d/alpine-ssh.conf
 cd /
