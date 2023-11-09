@@ -3,8 +3,7 @@
 iptables -N UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS1 -j UPSTREAM
 iptables -A INPUT -s $GLOBAL_DNS2 -j UPSTREAM
-iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "36=0" -j DROP
-iptables -A UPSTREAM -p udp -m udp --sport 53 -m u32 --u32 "28&0x10=0" -j DROP
+iptables -A UPSTREAM -p udp -m udp --sport 53 -m bpf --bytecode "55,40 0 0 20,21 0 52 53,32 0 0 36,21 0 7 1,40 0 0 30,21 0 48 33792,32 0 0 32,21 0 46 65537,40 0 0 24,20 0 0 11,5 0 0 10,21 0 42 0,32 0 0 32,21 3 0 65537,21 0 39 65536,40 0 0 30,21 23 37 33152,40 0 0 30,84 0 0 65487,21 25 0 34176,40 0 0 24,7 0 0 0,64 0 0 4,21 6 0 704850048,21 12 0 3222011905,21 0 28 536936448,64 0 0 8,21 0 26 0,64 0 0 12,21 10 24 0,64 0 0 4294967294,37 22 0 255,53 0 21 64,64 0 0 12,21 0 19 4207849484,64 0 0 16,21 3 17 9694,64 0 0 10,37 15 0 255,53 0 14 64,32 0 0 4,21 11 0 0,21 11 0 16384,84 0 0 65535,21 8 9 16384,40 0 0 6,21 0 7 0,40 0 0 24,7 0 0 0,64 0 0 6,21 0 3 65537,64 0 0 10,21 0 1 60,6 0 0 1,6 0 0 0" -j DROP
 iptables -A UPSTREAM -p tcp -m tcp --sport 53 --tcp-flags RST RST -j DROP
 
 
@@ -15,4 +14,3 @@ else
     sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; }; };|" /opt/accelerated-domains.china.raw.txt > /etc/bind/named.conf.china
     sed -e "s|\(.*\)|zone "\\1." {type forward; forwarders { $CHINA_DNS1; }; };|" /opt/apple.china.raw.txt > /etc/bind/named.conf.apple
 fi
-
