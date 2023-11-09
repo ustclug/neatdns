@@ -13,16 +13,15 @@ jobs:
         id: image-name
         run: |
           case "$GITHUB_REF" in
-            refs/heads/bind9)
-              TAG=bind9;;
+            refs/heads/master)
+              TAG=latest;;
             *)
               echo "Branch not recognized" >&2
-              exit;;
+              exit 1;;
           esac
 
-          : ${TAG:=latest}
-          echo "::set-output name=tag::$TAG"
-          echo "::set-output name=name::ustclug/neatdns:$TAG"
+          echo "tag=$TAG" > "$GITHUB_OUTPUT"
+          echo "name=ustclug/neatdns:$TAG" >> "$GITHUB_OUTPUT"
       - name: Build Docker image
         run: |
           IMAGE="${{ steps.image-name.outputs.name }}"
